@@ -1,4 +1,4 @@
-# Micro Drone & Custom Remote (DIY, A-to-Z)
+# Micro Drone & Custom Remote
 
 A small quadcopter and its own remote, built from scratch: flight electronics,
 brushed-motor driving, a wireless link, and power. 
