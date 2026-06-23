@@ -25,6 +25,9 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
 - Optional payload module (experiment): 12 V electromagnet (5 kg), MOSFET-switched,
   separate supply, for a pick-and-release mechanism
 
+
+  
+
 ## How it works
 
 - The ESP32-C3 on the drone runs the flight firmware and hosts the wireless link
@@ -38,18 +41,7 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
 - Optional: an electromagnet, switched by a MOSFET, for a payload pick-and-release
   experiment (separate power domain).
 
-## Current status
+## Circuit
 
-- Components acquired, wiring design posted.
-- Circuit assembly in progress.
-- Frame prototyped with wooden sticks; 3D-printed frame designed
-- Firmware: in progress.
 
-## Tools & Environment
-
-- MCU: ESP32-C3 (RISC-V)
-- Language: C / C++ (Arduino / ESP-IDF)
-- Wireless: WiFi / BLE
-- Power: 1S LiPo, ISDT PD60 charger
-- CAD: FreeCAD (frame)
-- Bench: multimeter, oscilloscope, 12 V adapter
+## Controlling one moter and his driver 
