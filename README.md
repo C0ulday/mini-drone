@@ -22,11 +22,10 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
 - Mechanics: M2.5 brass standoffs; prototype frame from wooden sticks (3D-printed
   frame designed, print pending)
 - Bench supply: 12 V 3 A DC adapter (for bench testing)
-- Optional payload module (experiment): 12 V electromagnet (5 kg), MOSFET-switched,
-  separate supply, for a pick-and-release mechanism
 
-[!materials](Electronics/Images/elec1.png)
-[!materials](Electronics/Images/elec2.png)
+
+![materials](Electronics/Images/elec1.png)
+![materials](Electronics/Images/elec2.png)
   
 
 ## How it works
@@ -44,6 +43,6 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
 
 ## Circuit
 
-[!Complete Circuit](Electronics/Images/KiCAD_sketch.png)
+![Complete Circuit](Electronics/Images/KiCAD_sketch.png)
 
 ## Controlling one moter and his driver 
