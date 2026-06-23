@@ -24,8 +24,12 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
 - Bench supply: 12 V 3 A DC adapter (for bench testing)
 
 
-![materials](Electronics/Images/elec1.png)
-![materials](Electronics/Images/elec2.png)
+<table>
+  <tr>
+    <td><img src="Electronics/Images/elec1.png" alt="materials" width="400"/></td>
+    <td><img src="Electronics/Images/elec2.png" alt="materials" width="400"/></td>
+  </tr>
+</table>
   
 
 ## How it works
