@@ -10,18 +10,18 @@ A micro / tiny-whoop-class drone built end to end to learn the whole stack: moto
 driving, real-time control, a radio link, power, and hand assembly. Nothing here
 is a kit. The electronics, the firmware and the remote are designed and wired by me.
 
-## Hardware (bill of materials)
+## Hardware
 
-- MCU (drone and remote): ESP32-C3 Super Mini, RISC-V 32-bit, 160 MHz, WiFi + BLE 5.0
-- Motors: 4x coreless brushed DC motors, 8 x 16 mm, ~5200 RPM, with propellers
-- Motor drivers: AO3400 N-channel MOSFETs (SOT-23), one per motor, low-side PWM
-  switching, mounted on SOT23-to-DIP breakout boards for prototyping
-- Flight battery: 1S LiPo 200 mAh, 3.7 V, 45C (PH2.0)
-- Charger: ISDT PD60 (1-4S LiPo)
-- Storage: 64 GB micro SD (logging / config)
-- Mechanics: M2.5 brass standoffs; prototype frame from wooden sticks (3D-printed
-  frame designed, print pending)
-- Bench supply: 12 V 3 A DC adapter (for bench testing)
+| Category               | Details |
+|------------------------|---------|
+| **MCU (drone & remote)** | ESP32-C3 Super Mini – RISC-V 32‑bit @ 160 MHz, WiFi + BLE 5.0 |
+| **Motors**             | 4x coreless brushed DC motors (8 × 16 mm), ~5200 RPM, with propellers |
+| **Motor drivers**      | 4x AO3400 N‑channel MOSFETs (SOT‑23) – one per motor, low‑side PWM switching, mounted on SOT23‑to‑DIP breakout boards for prototyping |
+| **Flight battery**     | 1S LiPo 200 mAh – 3.7 V – 45C (PH2.0 connector) |
+| **Charger**            | ISDT PD60 (1‑4S LiPo compatible) |
+| **Storage**            | 64 GB micro SD card (logging / config) |
+| **Mechanics**          | M2.5 brass standoffs; prototype frame from wooden sticks (3D‑printed frame designed, print pending) |
+| **Bench power supply** | 12 V – 3 A DC adapter (for bench testing) |
 
 
 <table>
