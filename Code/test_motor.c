@@ -1,5 +1,5 @@
 /*
- * Test canal moteur — ESP32-C3 Super Mini
+ * Test canal moteur : ESP32-C3 Super Mini
  * Moteur M1 sur GPIO3 (gate AO3400 via 100R, pulldown 10k)
  * SS14 flyback aux bornes du moteur, cathode (barre) vers VBAT
  *
