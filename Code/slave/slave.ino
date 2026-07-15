@@ -2,17 +2,10 @@
 #include <WiiFi.h>
 
 typedef struct message {
-
-    char deviceName[32];
-
-    int sensorValue;
-
-    float speed;
-
-    bool status;
-
+    char deviceName[32];    // Nom de l'émetteur
+    uint8_t motorSpeed;     // Vitesse du moteur (0 à 255) 
+    bool arm;               // true = moteur autorisé, false = coupé
     unsigned long timestamp;
-
 } struct_message;
 
 message incomingMessage;
@@ -27,11 +20,9 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
     Serial.printf("Device: %s\n", incomingMessage.deviceName);
 
-    Serial.printf("Sensor: %d\n", incomingMessage.sensorValue);
+    Serial.printf("motorSpeed: %d\n", incomingMessage.motorSpeed);
 
-    Serial.printf("Temperature: %.2f°C\n", incomingMessage.temperature);
-
-    Serial.printf("Status: %s\n", incomingMessage.status ? "Active" : "Inactive");
+    Serial.printf("arm: %.2f°C\n", incomingMessage.arm);
 
     Serial.printf("Timestamp: %lu\n", incomingMessage.timestamp);
 
@@ -57,8 +48,6 @@ void setup() {
 
     }
 
-    
-
     esp_now_register_recv_cb(OnDataRecv);
 
     Serial.println("ESP-NOW Receiver Ready");
@@ -68,6 +57,6 @@ void setup() {
 
 void loop() {
 
-    delay(1000);
+  delay(1000);
 
 }
