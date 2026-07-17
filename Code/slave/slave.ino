@@ -14,7 +14,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
     memcpy(&incomingMessage, incomingData, sizeof(incomingMessage));
 
-    if(millis() - timestamp > 300) {
+    if(millis() - incomingMessage.timestamp > 300) {
         Serial.println("connection lost...");
         return;
     }

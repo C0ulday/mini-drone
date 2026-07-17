@@ -27,8 +27,8 @@ void OnDataSent(const uint8_t* mac_addr, esp_now_send_status_t status){
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200); // baud rate
-
   WiFi.mode(WIFI_STA); // station mode
+  strcpy(incomingMessage.deviceName,"Drone master");
   
   if (esp_now_init() != ESP_OK){
     Serial.println("error init ESP_NOW");
@@ -53,8 +53,6 @@ void setup() {
 
 
 void loop() {
-
-  strcpy(incomingMessage.deviceName,"Drone master");
   incomingMessage.timestamp = millis();
   incomingMessage.motorSpeed = 128;
   incomingMessage.arm = true;
