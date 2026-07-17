@@ -5,22 +5,40 @@
 #define CHANNEL 1
 
 esp_now_peer_info_t slave;
-uint8_t data = 0;
 
+// message structure
+typedef struct {
+  char deviceName[32];
+  uint8_t motorSpeed;
+  bool arm;
+  unsigned long timestamp;
+} Message;
+
+Message incomingMessage;
+
+// if master sent the message
+void OnDataSent(const uint8_t* mac_addr, esp_now_send_status_t status){
+  Serial.print("sent...");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Success" : "Failed");
+}
+
+// setting up the master
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200); // le baud
+  Serial.begin(115200); // baud rate
 
-  WiFi.mode(WiFi_STA); // station mode
-  esp_now_init();
+  WiFi.mode(WIFI_STA); // station mode
+  
+  if (esp_now_init() != ESP_OK){
+    Serial.println("error init ESP_NOW");
+    return;
+  } 
 
   esp_now_register_send_cb(OnDataSent);
   ScanForSlave();
-
-
-
 }
 
+// looking for slaves
 void ScanForSlave() {
   int8_t scanResults = WiFi.scanNetworks();
 
@@ -42,10 +60,10 @@ void ScanForSlave() {
         slave.channel = CHANNEL;
         slave.encrypt = 0; // no encryption
         if(esp_now_add_peer(&slave) == ESP_OK) {
-          Serial.print("coucou");
+          Serial.print("connected...");
           Serial.println(BSSIDstr);
         } else {
-          Serial.println("erreur d'ajout");
+          Serial.println("cannot connect");
         }
       }
       break;
@@ -55,14 +73,14 @@ void ScanForSlave() {
 }
 
 
-void OnDataSent(const uint8_t* mac_addr, esp_now_send_status_t status){
-  Serial.print("received...")
-  Serial.println(data);
-}
-
 void loop() {
 
-  esp_err_t result = esp_now_send(slave.peer_addr, (uint8_t*)&data, sizeof(data));
+  strcpy(incomingMessage.deviceName,"Drone master");
+  incomingMessage.timestamp = millis();
+  incomingMessage.motorSpeed = 128;
+  incomingMessage.arm = true;
+  
+  esp_err_t result = esp_now_send(slave.peer_addr, (uint8_t*)&incomingMessage, sizeof(incomingMessage));
 
   if (result == ESP_OK) {
     Serial.println("sent");

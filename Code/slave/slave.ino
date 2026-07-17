@@ -1,14 +1,14 @@
 #include <esp_now.h>
-#include <WiiFi.h>
+#include <WiFi.h>
 
-typedef struct message {
+typedef struct {
     char deviceName[32];    // Nom de l'émetteur
     uint8_t motorSpeed;     // Vitesse du moteur (0 à 255) 
     bool arm;               // true = moteur autorisé, false = coupé
     unsigned long timestamp;
-} struct_message;
+} Message;
 
-message incomingMessage;
+Message incomingMessage;
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
@@ -22,7 +22,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
     Serial.printf("motorSpeed: %d\n", incomingMessage.motorSpeed);
 
-    Serial.printf("arm: %.2f°C\n", incomingMessage.arm);
+    Serial.printf("arm: %s\n", incomingMessage.arm ? "ARMED" : "DISARMED");
 
     Serial.printf("Timestamp: %lu\n", incomingMessage.timestamp);
 
