@@ -1,6 +1,11 @@
 #include <esp_now.h>
 #include <WiFi.h>
 
+
+#define MOTOR_PIN 3
+#define PWM_FREQ 20000
+#define PWM_RES  8          // 8 bits → 0..255
+
 typedef struct {
     char deviceName[32];    // Nom de l'émetteur
     uint8_t motorSpeed;     // Vitesse du moteur (0 à 255) 
@@ -15,16 +20,24 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     memcpy(&incomingMessage, incomingData, sizeof(incomingMessage));
 
     if(millis() - incomingMessage.timestamp > 300) {
-        Serial.println("connection lost...");
+        Serial.println("connection lost...\n");
+        stopMotor();
+        return;
+    }
+
+    if(!incomingMessage.arm){
+        Serial.println("motor isn't armed...\n");
+        stopMotor();
         return;
     }
     
+    // if there is still a link with the remote
+
+    launchMotor();
 
     Serial.println("=== Message Received ===");
 
     Serial.printf("Device: %s\n", incomingMessage.deviceName);
-
-    Serial.printf("motorSpeed: %d\n", incomingMessage.motorSpeed);
 
     Serial.printf("arm: %s\n", incomingMessage.arm ? "ARMED" : "DISARMED");
 
@@ -33,6 +46,22 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     Serial.println("========================");
 
 }
+
+void launchMotor(){
+
+    ledcWrite(MOTOR_PIN,incomingMessage.motorSpeed);
+    Serial.printf("speed applied %d\n",incomingMessage.motorSpeed);
+
+
+}
+
+void stopMotor(){
+
+    ledcWrite(MOTOR_PIN,0);
+    Serial.printf("motor stopped\n");
+}
+
+
 
 void setup() {
 
@@ -46,21 +75,24 @@ void setup() {
 
     if (esp_now_init() != ESP_OK) {
 
-        Serial.println("Error initializing ESP-NOW");
+        Serial.println("Error initializing ESP-NOW\n");
 
         return;
 
     }
 
+    ledcAttach(MOTOR_PIN, PWM_FREQ, PWM_RES);
+    stopMotor();
+
     esp_now_register_recv_cb(OnDataRecv);
 
-    Serial.println("ESP-NOW Receiver Ready");
+    Serial.println("ESP-NOW Receiver Ready\n");
 
 }
 
 
 void loop() {
 
-  delay(1000);
+    delay(1000);
 
 }
