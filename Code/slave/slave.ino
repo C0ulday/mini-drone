@@ -15,7 +15,7 @@ typedef struct {
 
 Message incomingMessage;
 
-void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+void OnDataRecv(const esp_now_recv_info* mac, const uint8_t *incomingData, int len) {
 
     memcpy(&incomingMessage, incomingData, sizeof(incomingMessage));
 
