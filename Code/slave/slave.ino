@@ -17,9 +17,11 @@ Message incomingMessage;
 
 void OnDataRecv(const esp_now_recv_info* mac, const uint8_t *incomingData, int len) {
 
+    int lastRxMs = millis();
+
     memcpy(&incomingMessage, incomingData, sizeof(incomingMessage));
 
-    if(millis() - incomingMessage.timestamp > 300) {
+    if(millis() - lastRxMs  > 300) {
         Serial.println("connection lost...\n");
         stopMotor();
         return;
@@ -59,6 +61,7 @@ void stopMotor(){
 
     ledcWrite(MOTOR_PIN,0);
     Serial.printf("motor stopped\n");
+
 }
 
 

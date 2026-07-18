@@ -66,7 +66,7 @@ void loop() {
     Serial.println("error");
   }
 
-  delay(3000);
+  delay(200000);
   Serial.printf("sent...");
 
 }
