@@ -18,7 +18,7 @@ Message incomingMessage;
 uint8_t broadAddr[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 // if master sent the message
-void OnDataSent(const uint8_t* mac_addr, esp_now_send_status_t status){
+void OnDataSent(const esp_now_send_info_t *tx_info, esp_now_send_status_t status){
   Serial.print("sent...");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Success" : "Failed");
 }
