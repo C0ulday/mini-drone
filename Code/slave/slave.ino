@@ -6,54 +6,43 @@
 #define PWM_FREQ 20000
 #define PWM_RES  8          // 8 bits → 0..255
 
-typedef struct {
-    char deviceName[32];    // Nom de l'émetteur
-    uint8_t motorSpeed;     // Vitesse du moteur (0 à 255) 
+uint8_t last_seq;
+unsigned long last_Rx = 0;
+
+
+typedef struct __attribute__((packed)) { // pour éviter des trous dans la structure
+                                        // mets les données les unes à côté de l'autre
+    uint8_t magic_byte; // premier byte pour vérifier intégrité du message
+    uint8_t seq;        // numéro du message
+    uint8_t motor_speed;     // Vitesse du moteur (0 à 255) 
+
+    uint8_t roll;
+    uint8_t pitch;
+    uint8_t yaw;
+
     bool arm;               // true = moteur autorisé, false = coupé
-    unsigned long timestamp;
+    unsigned long timestamp; // pour vérifier la vieillesse des messages
+    uint8_t crc;   // checksum
 } Message;
 
 Message incomingMessage;
 
-void OnDataRecv(const esp_now_recv_info* mac, const uint8_t *incomingData, int len) {
 
-    int lastRxMs = millis();
 
-    memcpy(&incomingMessage, incomingData, sizeof(incomingMessage));
 
-    if(millis() - lastRxMs  > 300) {
-        Serial.println("connection lost...\n");
-        stopMotor();
-        return;
+uint8_t checkSum(uint8_t* data, size_t len) {
+
+    uint8_t checksum = 0;
+    for(size_t i = 0 ; i < len - 1 ; i++ ) {
+        checksum += data[i];
     }
-
-    if(!incomingMessage.arm){
-        Serial.println("motor isn't armed...\n");
-        stopMotor();
-        return;
-    }
-    
-    // if there is still a link with the remote
-
-    launchMotor();
-
-    Serial.println("=== Message Received ===");
-
-    Serial.printf("Device: %s\n", incomingMessage.deviceName);
-
-    Serial.printf("arm: %s\n", incomingMessage.arm ? "ARMED" : "DISARMED");
-
-    Serial.printf("Timestamp: %lu\n", incomingMessage.timestamp);
-
-    Serial.println("========================");
-
+    return checksum;
 }
 
 void launchMotor(){
 
     ledcWrite(MOTOR_PIN,incomingMessage.motorSpeed);
     Serial.printf("speed applied %d\n",incomingMessage.motorSpeed);
-
 
 }
 
@@ -73,9 +62,7 @@ void setup() {
     WiFi.mode(WIFI_STA);
 
     Serial.println(WiFi.macAddress());
-
     
-
     if (esp_now_init() != ESP_OK) {
 
         Serial.println("Error initializing ESP-NOW\n");
@@ -94,8 +81,55 @@ void setup() {
 }
 
 
-void loop() {
 
-    delay(1000);
+void OnDataRecv(const esp_now_recv_info* mac, const uint8_t *incomingData, int len) {
+
+    if (len != sizeof(Message)) {
+        Serial.printf("Invalid size !\n");
+        return;
+    }
+
+    Message temp;
+    memcpy(&temp, incomingData, sizeof(temp));
+
+    if(temp.magic_byte != 0xC7) {
+        Serial.printf("Invalid magic byte !\n");
+        return;
+    }
+
+    if(temp.crc != checkSum((uint8_t*)&temp, sizeof(temp))) {
+        Serial.printf("Corrupted message, invalid checksum !\n");
+        return;
+    }
+
+    if (last_seq !=0 && temp.seq != (last_seq+1)) {
+        Serial.printf("Packets loss !\n");
+    }
+    // On peut désormais copier dans la structure finale
+    memcpy(&incomingMessage, incomingData, sizeof(incomingMessage));
+    last_Rx = millis();
+    last_seq = incomingMessage.seq;
+
+    if(incomingMessage.arm) {
+        launchMotor();
+    } else {
+        stopMotor();
+    } 
+
+
+}
+
+
+
+void loop() {
+    
+    if(millis() - last_Rx  > 300) {
+        //Serial.println("connection lost...\n");
+        stopMotor();
+        last_Rx = 0;
+        return;
+    }
+
+    delay(10);
 
 }
