@@ -123,7 +123,7 @@ void OnDataRecv(const esp_now_recv_info* mac, const uint8_t *incomingData, int l
 
 void loop() {
     
-    if(millis() - last_Rx  > 300) {
+    if(last_Rx !=0 && millis() - last_Rx  > 300) {
         //Serial.println("connection lost...\n");
         stopMotor();
         last_Rx = 0;
