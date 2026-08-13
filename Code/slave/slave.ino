@@ -41,8 +41,8 @@ uint8_t checkSum(uint8_t* data, size_t len) {
 
 void launchMotor(){
 
-    ledcWrite(MOTOR_PIN,incomingMessage.motorSpeed);
-    Serial.printf("speed applied %d\n",incomingMessage.motorSpeed);
+    ledcWrite(MOTOR_PIN,incomingMessage.motor_speed);
+    Serial.printf("speed applied %d\n",incomingMessage.motor_speed);
 
 }
 
@@ -110,13 +110,6 @@ void OnDataRecv(const esp_now_recv_info* mac, const uint8_t *incomingData, int l
     last_Rx = millis();
     last_seq = incomingMessage.seq;
 
-    if(incomingMessage.arm) {
-        launchMotor();
-    } else {
-        stopMotor();
-    } 
-
-
 }
 
 
@@ -126,9 +119,15 @@ void loop() {
     if(last_Rx !=0 && millis() - last_Rx  > 300) {
         //Serial.println("connection lost...\n");
         stopMotor();
-        last_Rx = 0;
         return;
     }
+    
+    if(!incomingMessage.arm) {
+        stopMotor();
+    } else {
+        launchMotor();
+    } 
+
 
     delay(10);
 

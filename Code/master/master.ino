@@ -86,7 +86,7 @@ void loop() {
   int roll_value = analogRead(ROLL_PIN);
   int pitch_value = analogRead(PITCH_PIN);
 
-  incomingMessage.motorSpeed = map(adc_value,0,ADC_MAX,0,255);
+  incomingMessage.motor_speed = map(adc_value,0,ADC_MAX,0,255);
 
   incomingMessage.pitch =map(pitch_value,0,ADC_MAX,0,255);
   incomingMessage.roll =map(roll_value,0,ADC_MAX,0,255);
