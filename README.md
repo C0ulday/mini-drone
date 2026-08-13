@@ -2,13 +2,11 @@
 
 A small quadcopter and its own remote, built from scratch: flight electronics,
 brushed-motor driving, a wireless link, and power. 
-The frame is being prototyped from wooden sticks.
 
 ## What it is
 
 A micro / tiny-whoop-class drone built end to end to learn the whole stack: motor
-driving, real-time control, a radio link, power, and hand assembly. Nothing here
-is a kit. The electronics, the firmware and the remote are designed and wired by me.
+driving, real-time control, a radio link, power, and hand assembly.
 
 ## Hardware
 
@@ -24,14 +22,6 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
 | **Bench power supply** | 12 V – 3 A DC adapter (for bench testing) |
 
 
-<table>
-  <tr>
-    <td><img src="Electronics/Images/elec1.png" alt="materials" width="400"/></td>
-    <td><img src="Electronics/Images/elec2.png" alt="materials" width="400"/></td>
-  </tr>
-</table>
-  
-
 ## How it works
 
 - The ESP32-C3 on the drone runs the flight firmware and hosts the wireless link
@@ -42,7 +32,7 @@ is a kit. The electronics, the firmware and the remote are designed and wired by
   over the link.
 - The 1S LiPo powers the motors; the ESP32 runs from its onboard regulator. A 12 V
   bench adapter is used while testing on the desk.
-- Optional: an electromagnet, switched by a MOSFET, for a payload pick-and-release
+- (feature i want to add): an electromagnet, switched by a MOSFET, for a payload pick-and-release
   experiment (separate power domain).
 
 ## Circuit
