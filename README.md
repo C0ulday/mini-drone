@@ -38,6 +38,8 @@ driving, real-time control, a radio link, power, and hand assembly.
 ## Circuit
 
 ![Complete Circuit](Electronics/Images/KiCAD_sketch.png)
+
+## Drone's frame
 ![Complete Circuit](Electronics/Images/DRONE-SUPPORT.png)
 
 ## Controlling one moter and his driver 
