@@ -38,5 +38,7 @@ driving, real-time control, a radio link, power, and hand assembly.
 ## Circuit
 
 ![Complete Circuit](Electronics/Images/KiCAD_sketch.png)
+![Complete Circuit](Electronics/Images/elec1.png)
+![Complete Circuit](Electronics/Images/elec2.png)
 
 ## Controlling one moter and his driver 
