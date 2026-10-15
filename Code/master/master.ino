@@ -3,11 +3,12 @@
 #include <WiFi.h>
 
 #define CHANNEL 1
-#define THROTTLE_PIN 1
-#define YAW_PIN 2
-#define ROLL_PIN 3
-#define PITCH_PIN 4
+#define THROTTLE_PIN 0
+#define PITCH_PIN 1
 #define ADC_MAX 4095
+//#define YAW_PIN 1
+//#define ROLL_PIN 0
+
 
 
 esp_now_peer_info_t slave;
@@ -82,15 +83,15 @@ void loop() {
   incomingMessage.timestamp = millis();
 
   int adc_value = analogRead(THROTTLE_PIN);
-  int yaw_value = analogRead(YAW_PIN);
-  int roll_value = analogRead(ROLL_PIN);
+  //int yaw_value = analogRead(YAW_PIN);
+  //int roll_value = analogRead(ROLL_PIN);
   int pitch_value = analogRead(PITCH_PIN);
 
   incomingMessage.motor_speed = map(adc_value,0,ADC_MAX,0,255);
 
   incomingMessage.pitch =map(pitch_value,0,ADC_MAX,0,255);
-  incomingMessage.roll =map(roll_value,0,ADC_MAX,0,255);
-  incomingMessage.yaw =map(yaw_value,0,ADC_MAX,0,255);
+  //incomingMessage.roll =map(roll_value,0,ADC_MAX,0,255);
+  //incomingMessage.yaw =map(yaw_value,0,ADC_MAX,0,255);
 
   incomingMessage.arm = true;
   incomingMessage.seq = last_seq +1;
